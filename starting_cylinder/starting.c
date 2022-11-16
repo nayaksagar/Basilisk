@@ -43,7 +43,6 @@ We set a unit velocity inflow on the left and an outflow on the
 right. */
 
 u.n[left] = dirichlet(1);
-
 u.n[right] = neumann(0);
 p[right] = dirichlet(0);
 pf[right] = dirichlet(0);
@@ -60,20 +59,20 @@ int main (int argc, char * argv[])
     Re = atof (argv[2]);
   if (argc > 3)
     cmax = atof (argv[3]);
-  
+
   /**
   The domain is $18\times 18$ and only half the cylinder is modelled. */
-  
+
   size (18);
   origin (- L0/2.);
 
   /**
   We set the viscosity field and tune the Poisson solver. */
-   
+
   mu = muv;
   TOLERANCE = 1e-4;
   NITERMIN = 2;
-  
+
   run();
 }
 
@@ -102,15 +101,15 @@ event init (t = 0)
     /**
     Otherwise, we first create a mesh initially refined only around
     the cylinder. */
-    
+
     refine (level <= maxlevel*(1. - sqrt(fabs(sq(x) + sq(y) - sq(0.5)))/2.));
 
     /**
     Then initialize the embedded boundary with the unit-diameter
     cylinder. */
-    
+
     solid (cs, fs, sq(x) + sq(y) - sq(0.5));
-    
+
     foreach()
       u.x[] = cs[]; // fixme: with 1 this results in sub-optimal adaptation
   }
@@ -119,16 +118,16 @@ event init (t = 0)
     /**
     When we restart, we still need to restore the face fraction field
     *fs*, since it is not dumped. */
-    
+
     solid (cs, fs, sq(x) + sq(y) - sq(0.5));
-    
+
   }
 
   /**
   The boundary condition is zero velocity on the embedded boundary. */
-    
+
   u.n[embed] = dirichlet(0);
-  u.t[embed] = dirichlet(0);  
+  u.t[embed] = dirichlet(0);
 }
 
 /**
@@ -260,13 +259,13 @@ event snapshots (t = 1.; t <= 3.; t += 1.)
     sprintf (name, "cells-%g.png", t);
     save (name);
   }
-  
+
   if (t == 3.) {
     // Fig. 3.
     display_omega (640, 480);
     save ("omega-3.png");
   }
-  
+
   p.nodump = false;
   char name [80];
   sprintf (name, "dump-%g", t);
@@ -375,7 +374,7 @@ plot [][0:2]\
      'log' u 2:(4.*($4+$6)) w l lw 2 t 'Basilisk (12 levels)', \
      'level-13/log' u 2:(4.*($4+$6)) w l lw 2 t 'Basilisk (13 levels)', \
      '' u 2:(4.*$6) w l lw 2 t 'friction (13 levels)', \
-     '' u 2:(4.*$4) w l lw 2 t 'pressure (13 levels)'     
+     '' u 2:(4.*$4) w l lw 2 t 'pressure (13 levels)'
 ~~~
 
 Note that the points of Figure 4 of [K. & L. 1995](#koumoutsakos1995)
@@ -475,7 +474,7 @@ plot [0:1]'fig6b.SIM' every 20 pt 7 t 'SIM (Mohahegh et al 2017)', \
 
 ~~~bib
 @article{bouard1980,
-  title={The early stage of development of the wake behind an 
+  title={The early stage of development of the wake behind an
          impulsively started cylinder for 40 < {Re} < 10^4^},
   author={Bouard, Roger and Coutanceau, Madeleine},
   journal={Journal of Fluid Mechanics},
@@ -487,7 +486,7 @@ plot [0:1]'fig6b.SIM' every 20 pt 7 t 'SIM (Mohahegh et al 2017)', \
 }
 
 @article{koumoutsakos1995,
-  title={High-resolution simulations of the flow around an 
+  title={High-resolution simulations of the flow around an
          impulsively started cylinder using vortex methods},
   author={Koumoutsakos, Petros and Leonard, A},
   journal={Journal of Fluid Mechanics},
