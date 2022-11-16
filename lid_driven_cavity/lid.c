@@ -14,11 +14,11 @@ solver. */
 
 /**
 Here we define the domain geometry: a square box of size unity
-centered on (0,0). We also set the viscosity and some parameters 
+centered on (0,0). We also set the viscosity and some parameters
 controlling the numerical scheme. */
 
 int main()
-{ 
+{
   // coordinates of lower-left corner
   origin (-0.5, -0.5);
   // number of grid points
@@ -138,7 +138,7 @@ event profiles (t = end)
   for (double y = -0.5; y <= 0.5; y += 0.01)
     fprintf (fp, "%g %g\n", y, interpolate (u.x, 0, y));
   fclose (fp);
-  
+
   fp = fopen("yprof", "w");
   for (double x = -0.5; x <= 0.5; x += 0.01)
     fprintf (fp, "%g %g\n", x, interpolate (u.y, x, 0));
