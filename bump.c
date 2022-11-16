@@ -7,12 +7,12 @@ event init (t = 0) {
 }
 
 event images(i++){   //(i++)
- output_ppm(h,linear=true);
- // scalar l[];
- //  foreach()
- //   l[]=level;
- // FILE*fp=fopen("grid.ppm","w");
- // output_ppm(l,fp,min=0,max=8);
+ // output_ppm(h,linear=true);
+ scalar l[];
+  foreach()
+   l[]=level;
+ FILE*fp=fopen("grid.ppm","w");
+ output_ppm(l,fp,min=0,max=8);
 }
 
 event graphs(i++){
