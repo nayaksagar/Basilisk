@@ -271,7 +271,7 @@ event snapshots (t = 1.; t <= 3.; t += 1.)
   sprintf (name, "dump-%g", t);
   dump (name);
 }
-
+#endif
 /**
 An animation is created. The iteration interval is adjusted depending
 on the maximum spatial resolution. */
@@ -283,7 +283,6 @@ event movie (i += 10*(1 << (maxlevel - 12)))
   display_omega (1280, 960);
   save ("omega.mp4");
 }
-#endif
 /**
 ## Surface vorticity profiles
 
