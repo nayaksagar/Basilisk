@@ -11,6 +11,12 @@ different reference frame. */
 
 #include "navier-stokes/centered.h"
 #include "fractions.h"
+#include "embed.h"
+
+// u.n[left] = dirichlet(1);
+// u.n[right] = neumann(0);
+// p[right] = dirichlet(0);
+// pf[right] = dirichlet(0);
 
 int main(){
   L0 = 8.;
@@ -38,14 +44,14 @@ be able to display it in the movie below. */
 scalar cylinder[];
 
 event moving_cylinder (i++) {
-  coord vc = {1.,0.}; // the velocity of the cylinder
+  coord vc = {1.0,0.}; // the velocity of the cylinder
   fraction (cylinder, - (sq(x - vc.x*t) + sq(y - vc.y*t) - sq(0.0625)));
 
   /**
   We then use this (solid) volume fraction field to impose the
-  corresponding velocity field inside the solid (as a volume-weighted 
+  corresponding velocity field inside the solid (as a volume-weighted
   average). */
-  
+
   foreach()
     foreach_dimension()
       u.x[] = cylinder[]*vc.x + (1. - cylinder[])*u.x[];
@@ -59,8 +65,14 @@ event logfile (i++)
   fprintf (stderr, "%d %g %d %d %d %d\n", i, t,
 	   mgp.i, mgp.nrelax, mgu.i, mgu.nrelax);
 
+// event logfile(i++){
+//   coord Fp,Fmu;
+//   embed_force (p, u, mu, &Fp, &Fmu);
+//   fprintf(stderr,"%d %g %g %0.6f %.6f %.6f %.6f\n",i,t,dt,Fp.x,Fp.y,Fmu.x,Fmu.y);
+// }
+
 /**
-... and a movie of vorticity. 
+... and a movie of vorticity.
 
 ![Animation of the vorticity field.](movingcylinder/vort.gif)
 */
@@ -97,7 +109,7 @@ This method was used in Gerris in particular for these papers:
 ~~~bib
 @InProceedings{wu2007,
   author =  {C. J. Wu and L. Wang},
-  title =  {Direct numerical simulation of self-propelled 
+  title =  {Direct numerical simulation of self-propelled
 swimming of 3D bionic fish school},
   booktitle =  {Computational Mechanics, Proceedings of ISCM 2007},
   year =  {2007},
@@ -107,7 +119,7 @@ swimming of 3D bionic fish school},
 
 @Article{Lin-Lin2016,
 author={Lin-Lin, Zhu and Hui, Guan and Chui-Jie, Wu},
-title={Three-dimensional numerical simulation of a bird 
+title={Three-dimensional numerical simulation of a bird
 model in unsteady flight},
 journal={Computational Mechanics},
 year={2016},
